@@ -1,20 +1,41 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { quiz } from './reducers/quiz';
+import * as ReactDOM from "react-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import AppLayout from "./components/AppLayout";
+import Home from "./components/Home";
+import Result from "./components/Result";
+import Question from "./components/Question";
 
-import { CurrentQuestion } from './components/CurrentQuestion';
+const router = createBrowserRouter([
+  {
+    element: <AppLayout/>,
+    children: [
+      {
+        element: <Home/>,
+        path: "/"
+      },
+      {
+        element: <Question/>,
+        path: "/question/:questionId"
+      },
+      {
+        element: <Result/>,
+        path: "/result"
+      },
+    ]
+  }
+])
 
-const reducer = combineReducers({
-  quiz: quiz.reducer
-});
 
-const store = configureStore({ reducer });
 
-export const App = () => {
+function App() {
+
   return (
-    <Provider store={store}>
-      <CurrentQuestion />
-    </Provider>
-  );
+    <RouterProvider router={router}>
+    </RouterProvider>
+  )
 }
+
+export default App
